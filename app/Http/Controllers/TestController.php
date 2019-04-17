@@ -10,14 +10,11 @@ class TestController extends Controller
 {
 	public function index()
 	{
-		$user = User::where('name', 'Andrei')->first();
-		$user->name = 'Andrei';
-		$user->email = 'andrei@email.com';
-		$user->role = 'normal';
-		$user->password = '123123';
-		$user->cart()->save(new Cart());
-		$user->save();
+		$user = User::where('name', 'Andrei')
+			->with('cart')
+			->first();
+//		$user->cart()->save(new Cart());
 
-		return response('DONE');
+		return response()->json($user);
 	}
 }

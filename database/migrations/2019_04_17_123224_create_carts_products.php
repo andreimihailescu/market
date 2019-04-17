@@ -19,6 +19,8 @@ class CreateCartsProducts extends Migration
 
         	$table->foreign('cart_id')->references('id')->on('carts');
         	$table->foreign('product_id')->references('id')->on('products');
+
+        	$table->primary(['cart_id', 'product_id']);
         });
     }
 
