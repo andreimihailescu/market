@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->integer('price')->unsigned();
             $table->string('image_source');
             $table->timestamps();
+			$table->softDeletes();
         });
     }
 
