@@ -23,4 +23,10 @@ class Product extends Model
 		return $this->belongsToMany('App\Cart', 'carts_products', 'product_id', 'cart_id');
 	}
 
+	public static function getAll()
+	{
+		$products = Product::all();
+
+		return $products->toArray();
+	}
 }

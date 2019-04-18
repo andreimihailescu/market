@@ -20,3 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/test', 'TestController@index');
+
+
+// CMS
+Route::prefix('cms')->group(function () {
+	Route::resource('product', 'CMS\ProductController');
+});
