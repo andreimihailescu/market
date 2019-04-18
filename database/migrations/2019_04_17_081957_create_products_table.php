@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->enum('type', ['laptop', 'computer', 'phone']);
             $table->integer('stock')->unsigned()->default(0);
             $table->integer('price')->unsigned();
-            $table->string('image_source');
+            $table->string('image_source')->nullable();
             $table->timestamps();
 			$table->softDeletes();
         });

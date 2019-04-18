@@ -4,19 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use phpDocumentor\Reflection\Types\Integer;
 
 class Product extends Model
 {
 	use SoftDeletes;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'type',
-        'stock',
-        'price',
-        'image_source'
-    ];
+	protected $fillable = [
+		'name',
+		'description',
+		'type',
+		'stock',
+		'price',
+		'image_source'
+	];
 
 	public function products()
 	{
@@ -27,6 +28,18 @@ class Product extends Model
 	{
 		$products = Product::all();
 
-		return $products->toArray();
+		return Product::hydrate($products->toArray());
+	}
+
+	public static function get($id)
+	{
+		$product = Product::find($id);
+
+		return $product;
+	}
+
+	public static function set(Product $product)
+	{
+		$product->save();
 	}
 }

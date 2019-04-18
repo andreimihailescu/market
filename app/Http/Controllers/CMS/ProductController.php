@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CMS;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
@@ -28,10 +29,6 @@ class ProductController extends Controller
 	 */
 	public function create()
 	{
-		if (isset($errors)) {
-			var_dump($errors);
-		}
-
 		return view('cms/product/form');
 	}
 
@@ -53,8 +50,16 @@ class ProductController extends Controller
 			'price' => 'required|numeric',
 		]);
 
-		dd($request);
-		return view('cms/product/form');
+		$product = new Product();
+		$product->name = $request->get('name');
+		$product->description = $request->get('description');
+		$product->type = $request->get('type');
+		$product->stock = $request->get('stock');
+		$product->price = $request->get('price');
+
+		Product::set($product);
+
+		return redirect()->action('CMS\ProductController@index');
 	}
 
 	/**
@@ -76,7 +81,7 @@ class ProductController extends Controller
 	 */
 	public function edit(Product $product)
 	{
-		return view('cms/product/form');
+		return view('cms/product/form', compact('product'));
 	}
 
 	/**
@@ -88,7 +93,25 @@ class ProductController extends Controller
 	 */
 	public function update(Request $request, Product $product)
 	{
-		//
+		$request->validate([
+			'name' => 'required|max:255',
+			'stock' => 'required|numeric',
+			'type' => [
+				'required',
+				Rule::in(['laptop', 'computer', 'phone']),
+			],
+			'price' => 'required|numeric',
+		]);
+
+		$product->name = $request->get('name');
+		$product->description = $request->get('description');
+		$product->type = $request->get('type');
+		$product->stock = $request->get('stock');
+		$product->price = $request->get('price');
+
+		Product::set($product);
+
+		return redirect()->action('CMS\ProductController@index');
 	}
 
 	/**
@@ -99,6 +122,6 @@ class ProductController extends Controller
 	 */
 	public function destroy(Product $product)
 	{
-		//
+		dd($product);
 	}
 }
