@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CMS;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -27,6 +28,10 @@ class ProductController extends Controller
 	 */
 	public function create()
 	{
+		if (isset($errors)) {
+			var_dump($errors);
+		}
+
 		return view('cms/product/form');
 	}
 
@@ -38,7 +43,18 @@ class ProductController extends Controller
 	 */
 	public function store(Request $request)
 	{
+		$request->validate([
+			'name' => 'required|max:255',
+			'stock' => 'required|numeric',
+			'type' => [
+				'required',
+				Rule::in(['laptop', 'computer', 'phone']),
+			],
+			'price' => 'required|numeric',
+		]);
+
 		dd($request);
+		return view('cms/product/form');
 	}
 
 	/**
