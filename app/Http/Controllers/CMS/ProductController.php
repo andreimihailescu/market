@@ -19,7 +19,8 @@ class ProductController extends Controller
 	{
 		$products = Product::getAll();
 
-		return view('cms/product/list', compact('products'));
+		return response()->json($products);
+//		return view('cms/product/list', compact('products'));
 	}
 
 	/**

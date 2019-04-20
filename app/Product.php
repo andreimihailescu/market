@@ -26,9 +26,7 @@ class Product extends Model
 
 	public static function getAll()
 	{
-		$products = Product::all();
-
-		return Product::hydrate($products->toArray());
+		return Product::all();
 	}
 
 	public static function get($id)

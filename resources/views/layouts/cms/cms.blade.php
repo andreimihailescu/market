@@ -3,6 +3,7 @@
 @include('layouts/CMS/components/head')
 <body>
 <div id="app">
+
     <div class="row">
         <div class="col-2">
             @include('layouts/CMS/components/nav')
