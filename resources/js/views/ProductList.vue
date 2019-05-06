@@ -1,22 +1,26 @@
 <template>
-    <TableComponent
-            v-bind:content="products"
-            v-bind:columns="['id', 'name', 'type', 'stock', 'price']"
-            v-bind:loading="loading"
-    ></TableComponent>
+    <div>
+        <ButtonComponent :onClick="addProduct">Add product</ButtonComponent>
+        <TableComponent
+                :content="products"
+                :columns="['id', 'name', 'type', 'stock', 'price']"
+                :loading="loading"
+        ></TableComponent>
+    </div>
 </template>
 
 <script>
     import axios from 'axios';
     import TableComponent from '../components/TableComponent';
+    import ButtonComponent from '../components/ButtonComponent';
 
     export default {
-        components: {TableComponent},
+        components: {TableComponent, ButtonComponent},
 
         data() {
             return {
                 loading: true,
-                products: null
+                products: null,
             }
         },
 
@@ -31,6 +35,9 @@
                         this.loading = false;
                         this.products = response.data;
                     });
+            },
+            addProduct() {
+                this.$router.push({name: 'productForm'});
             }
         }
     }
