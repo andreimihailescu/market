@@ -49181,9 +49181,9 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\laravel\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\laravel\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\laravel\resources\sass\cms.scss */"./resources/sass/cms.scss");
+__webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\resources\sass\cms.scss */"./resources/sass/cms.scss");
 
 
 /***/ })

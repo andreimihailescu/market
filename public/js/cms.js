@@ -38245,7 +38245,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("This is the home page.")])])
+    return _c("div", [_c("p", [_vm._v("This is the home page 2.")])])
   }
 ]
 render._withStripped = true
@@ -53978,7 +53978,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\laravel\resources\js\cms.js */"./resources/js/cms.js");
+module.exports = __webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\resources\js\cms.js */"./resources/js/cms.js");
 
 
 /***/ })
