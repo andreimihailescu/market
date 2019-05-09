@@ -66,10 +66,10 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-     sudo cp /vagrant/bootstrapVagrant/default /etc/nginx/sites-available/
+     sudo cp /vagrant/vagrant/default /etc/nginx/sites-available/
      sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
      sudo systemctl restart nginx
-     cd /vagrant/laravel
+     cd /vagrant
      sudo composer install
      php artisan migrate --seed
   SHELL
