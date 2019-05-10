@@ -1990,7 +1990,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     formSubmit: function formSubmit() {
       var router = this.$router;
-      axios.post('/api/product', {
+      var requestUrl = '/api/product';
+      var method = 'post';
+
+      if (router.currentRoute.name === 'productFormEdit') {
+        requestUrl = '/api/product/' + router.currentRoute.params.id;
+        method = 'put';
+      }
+
+      axios[method](requestUrl, {
         name: this.name,
         description: this.description,
         type: this.type,
@@ -2007,11 +2015,18 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
+    var _this = this;
+
     var currentRoute = this.$router.currentRoute;
 
     if (currentRoute.name === 'productFormEdit') {
       axios.get('/api/product/' + currentRoute.params.id).then(function (response) {
-        console.log('RESPONSE:', response);
+        var data = response.data;
+        _this.name = data.name;
+        _this.description = data.description;
+        _this.type = data.type;
+        _this.stock = data.stock;
+        _this.price = data.price;
       })["catch"](function (error) {
         console.log('ERROR:', error);
       });

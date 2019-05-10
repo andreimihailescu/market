@@ -62,8 +62,15 @@
         methods: {
             formSubmit() {
                 const router = this.$router;
+                let requestUrl = '/api/product';
+                let method = 'post';
 
-                axios.post('/api/product', {
+                if (router.currentRoute.name === 'productFormEdit') {
+                    requestUrl = '/api/product/' + router.currentRoute.params.id;
+                    method = 'put';
+                }
+
+                axios[method](requestUrl, {
                     name: this.name,
                     description: this.description,
                     type: this.type,
@@ -83,7 +90,13 @@
 
             if (currentRoute.name === 'productFormEdit') {
                 axios.get('/api/product/' + currentRoute.params.id).then(response => {
-                    console.log('RESPONSE:', response);
+                    const data = response.data;
+
+                    this.name = data.name;
+                    this.description = data.description;
+                    this.type = data.type;
+                    this.stock = data.stock;
+                    this.price = data.price;
                 }).catch(error => {
                     console.log('ERROR:', error);
                 });
