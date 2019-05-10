@@ -29,8 +29,13 @@ const router = new VueRouter({
             component: ProductList
         },
         {
-            path: '/cms/product/create',
+            path: '/cms/product/form',
             name: 'productForm',
+            component: ProductForm
+        },
+        {
+            path: '/cms/product/form/:id',
+            name: 'productFormEdit',
             component: ProductForm
         },
     ],

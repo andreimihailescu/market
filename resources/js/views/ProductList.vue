@@ -5,12 +5,12 @@
                 :content="products"
                 :columns="['id', 'name', 'type', 'stock', 'price']"
                 :loading="loading"
+                :formEditRouteName='formEditRouteName'
         ></TableComponent>
     </div>
 </template>
 
 <script>
-    import axios from 'axios';
     import TableComponent from '../components/TableComponent';
     import ButtonComponent from '../components/ButtonComponent';
 
@@ -21,6 +21,7 @@
             return {
                 loading: true,
                 products: null,
+                formEditRouteName: 'productFormEdit'
             }
         },
 

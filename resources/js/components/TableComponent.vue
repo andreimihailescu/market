@@ -11,7 +11,7 @@
             <tr v-for="element in content">
                 <td v-for="column in columns">{{ element[column] }}</td>
                 <td v-if="actions">
-                    <a href="#">Edit</a>
+                    <router-link :to="{ name: formEditRouteName, params: { id: element.id }}">Edit</router-link>
                     <a href="#">Delete</a>
                 </td>
             </tr>
@@ -33,6 +33,7 @@
         props: {
             content: Array,
             columns: Array,
+            formEditRouteName: String,
             loading: {
                 type: Boolean,
                 default: false

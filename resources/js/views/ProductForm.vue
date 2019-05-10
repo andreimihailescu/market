@@ -6,7 +6,7 @@
                     <li v-for="error in errors">{{ error }}</li>
                 </ul>
             </div>
-            <form @submit="formSubmit" v-on:submit.prevent="onSubmit">
+            <form>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" v-model="name">
@@ -38,7 +38,7 @@
                     <label for="price">Price</label>
                     <input type="number" class="form-control" id="price" name="price" v-model="price">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" @click="formSubmit">Submit</button>
             </form>
         </div>
     </div>
@@ -61,17 +61,32 @@
 
         methods: {
             formSubmit() {
+                const router = this.$router;
+
                 axios.post('/api/product', {
                     name: this.name,
                     description: this.description,
                     type: this.type,
                     stock: this.stock,
                     price: this.price
-                }).then(function (response) {
+                }).then(response => {
                     console.log('RESPONSE:', response);
-                }).catch(function (error) {
+                    router.push({name: 'productList'});
+                }).catch(error => {
                     console.log('ERROR:', error);
-                })
+                });
+            }
+        },
+
+        created() {
+            const currentRoute = this.$router.currentRoute;
+
+            if (currentRoute.name === 'productFormEdit') {
+                axios.get('/api/product/' + currentRoute.params.id).then(response => {
+                    console.log('RESPONSE:', response);
+                }).catch(error => {
+                    console.log('ERROR:', error);
+                });
             }
         }
     }

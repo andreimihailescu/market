@@ -1849,6 +1849,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     content: Array,
     columns: Array,
+    formEditRouteName: String,
     loading: {
       type: Boolean,
       "default": false
@@ -1988,6 +1989,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     formSubmit: function formSubmit() {
+      var router = this.$router;
       axios.post('/api/product', {
         name: this.name,
         description: this.description,
@@ -1995,6 +1997,20 @@ __webpack_require__.r(__webpack_exports__);
         stock: this.stock,
         price: this.price
       }).then(function (response) {
+        console.log('RESPONSE:', response);
+        router.push({
+          name: 'productList'
+        });
+      })["catch"](function (error) {
+        console.log('ERROR:', error);
+      });
+    }
+  },
+  created: function created() {
+    var currentRoute = this.$router.currentRoute;
+
+    if (currentRoute.name === 'productFormEdit') {
+      axios.get('/api/product/' + currentRoute.params.id).then(function (response) {
         console.log('RESPONSE:', response);
       })["catch"](function (error) {
         console.log('ERROR:', error);
@@ -2014,10 +2030,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_TableComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/TableComponent */ "./resources/js/components/TableComponent.vue");
-/* harmony import */ var _components_ButtonComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ButtonComponent */ "./resources/js/components/ButtonComponent.vue");
+/* harmony import */ var _components_TableComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/TableComponent */ "./resources/js/components/TableComponent.vue");
+/* harmony import */ var _components_ButtonComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ButtonComponent */ "./resources/js/components/ButtonComponent.vue");
 //
 //
 //
@@ -2029,18 +2043,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    TableComponent: _components_TableComponent__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ButtonComponent: _components_ButtonComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
+    TableComponent: _components_TableComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ButtonComponent: _components_ButtonComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
       loading: true,
-      products: null
+      products: null,
+      formEditRouteName: 'productFormEdit'
     };
   },
   created: function created() {
@@ -2050,7 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/product').then(function (response) {
+      axios.get('/api/product').then(function (response) {
         _this.loading = false;
         _this.products = response.data;
       });
@@ -6675,7 +6690,7 @@ function isSlowBuffer (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.4.0
+ * jQuery JavaScript Library v3.4.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -6685,7 +6700,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2019-04-10T19:48Z
+ * Date: 2019-05-01T21:04Z
  */
 ( function( global, factory ) {
 
@@ -6818,7 +6833,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.4.0",
+	version = "3.4.1",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -11174,8 +11189,12 @@ var documentElement = document.documentElement;
 		},
 		composed = { composed: true };
 
+	// Support: IE 9 - 11+, Edge 12 - 18+, iOS 10.0 - 10.2 only
 	// Check attachment across shadow DOM boundaries when possible (gh-3504)
-	if ( documentElement.attachShadow ) {
+	// Support: iOS 10.0-10.2 only
+	// Early iOS 10 versions support `attachShadow` but not `getRootNode`,
+	// leading to errors. We need to check for `getRootNode`.
+	if ( documentElement.getRootNode ) {
 		isAttached = function( elem ) {
 			return jQuery.contains( elem.ownerDocument, elem ) ||
 				elem.getRootNode( composed ) === elem.ownerDocument;
@@ -12035,8 +12054,7 @@ jQuery.event = {
 
 				// Claim the first handler
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) &&
-					dataPriv.get( el, "click" ) === undefined ) {
+					el.click && nodeName( el, "input" ) ) {
 
 					// dataPriv.set( el, "click", ... )
 					leverageNative( el, "click", returnTrue );
@@ -12053,8 +12071,7 @@ jQuery.event = {
 
 				// Force setup before triggering a click
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) &&
-					dataPriv.get( el, "click" ) === undefined ) {
+					el.click && nodeName( el, "input" ) ) {
 
 					leverageNative( el, "click" );
 				}
@@ -12095,7 +12112,9 @@ function leverageNative( el, type, expectSync ) {
 
 	// Missing expectSync indicates a trigger call, which must force setup through jQuery.event.add
 	if ( !expectSync ) {
-		jQuery.event.add( el, type, returnTrue );
+		if ( dataPriv.get( el, type ) === undefined ) {
+			jQuery.event.add( el, type, returnTrue );
+		}
 		return;
 	}
 
@@ -12110,9 +12129,13 @@ function leverageNative( el, type, expectSync ) {
 			if ( ( event.isTrigger & 1 ) && this[ type ] ) {
 
 				// Interrupt processing of the outer synthetic .trigger()ed event
-				if ( !saved ) {
+				// Saved data should be false in such cases, but might be a leftover capture object
+				// from an async native handler (gh-4350)
+				if ( !saved.length ) {
 
 					// Store arguments for use when handling the inner native event
+					// There will always be at least one argument (an event object), so this array
+					// will not be confused with a leftover capture object.
 					saved = slice.call( arguments );
 					dataPriv.set( this, type, saved );
 
@@ -12125,14 +12148,14 @@ function leverageNative( el, type, expectSync ) {
 					if ( saved !== result || notAsync ) {
 						dataPriv.set( this, type, false );
 					} else {
-						result = undefined;
+						result = {};
 					}
 					if ( saved !== result ) {
 
 						// Cancel the outer synthetic event
 						event.stopImmediatePropagation();
 						event.preventDefault();
-						return result;
+						return result.value;
 					}
 
 				// If this is an inner synthetic event for an event with a bubbling surrogate
@@ -12147,17 +12170,19 @@ function leverageNative( el, type, expectSync ) {
 
 			// If this is a native event triggered above, everything is now in order
 			// Fire an inner synthetic event with the original arguments
-			} else if ( saved ) {
+			} else if ( saved.length ) {
 
 				// ...and capture the result
-				dataPriv.set( this, type, jQuery.event.trigger(
+				dataPriv.set( this, type, {
+					value: jQuery.event.trigger(
 
-					// Support: IE <=9 - 11+
-					// Extend with the prototype to reset the above stopImmediatePropagation()
-					jQuery.extend( saved.shift(), jQuery.Event.prototype ),
-					saved,
-					this
-				) );
+						// Support: IE <=9 - 11+
+						// Extend with the prototype to reset the above stopImmediatePropagation()
+						jQuery.extend( saved[ 0 ], jQuery.Event.prototype ),
+						saved.slice( 1 ),
+						this
+					)
+				} );
 
 				// Abort handling of the native event
 				event.stopImmediatePropagation();
@@ -38145,11 +38170,26 @@ var render = function() {
               }),
               _vm._v(" "),
               _vm.actions
-                ? _c("td", [
-                    _c("a", { attrs: { href: "#" } }, [_vm._v("Edit")]),
-                    _vm._v(" "),
-                    _c("a", { attrs: { href: "#" } }, [_vm._v("Delete")])
-                  ])
+                ? _c(
+                    "td",
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            to: {
+                              name: _vm.formEditRouteName,
+                              params: { id: element.id }
+                            }
+                          }
+                        },
+                        [_vm._v("Edit")]
+                      ),
+                      _vm._v(" "),
+                      _c("a", { attrs: { href: "#" } }, [_vm._v("Delete")])
+                    ],
+                    1
+                  )
                 : _vm._e()
             ],
             2
@@ -38245,7 +38285,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("This is the home page 2.")])])
+    return _c("div", [_c("p", [_vm._v("This is the home page.")])])
   }
 ]
 render._withStripped = true
@@ -38283,192 +38323,178 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "form",
-        {
-          on: {
-            submit: [
-              _vm.formSubmit,
-              function($event) {
-                $event.preventDefault()
-                return _vm.onSubmit($event)
-              }
-            ]
-          }
-        },
-        [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.name,
-                  expression: "name"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "name", name: "name" },
-              domProps: { value: _vm.name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.name = $event.target.value
-                }
-              }
-            })
-          ]),
+      _c("form", [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "description" } }, [
-              _vm._v("Description")
-            ]),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.description,
-                  expression: "description"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                name: "description",
-                id: "description",
-                cols: "30",
-                rows: "5"
-              },
-              domProps: { value: _vm.description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.description = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "type" } }, [_vm._v("Type")]),
-            _vm._v(" "),
-            _c(
-              "select",
+          _c("input", {
+            directives: [
               {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.type,
-                    expression: "type"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { name: "type", id: "type" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.type = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
+                name: "model",
+                rawName: "v-model",
+                value: _vm.name,
+                expression: "name"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", id: "name", name: "name" },
+            domProps: { value: _vm.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              },
-              [
-                _c("option", { attrs: { value: "laptop" } }, [
-                  _vm._v(
-                    "\n                        Laptop\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "computer" } }, [
-                  _vm._v(
-                    "\n                        Computer\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "phone" } }, [
-                  _vm._v(
-                    "\n                        Phone\n                    "
-                  )
-                ])
-              ]
-            )
+                _vm.name = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "description" } }, [
+            _vm._v("Description")
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "stock" } }, [_vm._v("Stock")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.stock,
-                  expression: "stock"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "number", id: "stock", name: "stock" },
-              domProps: { value: _vm.stock },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.stock = $event.target.value
-                }
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.description,
+                expression: "description"
               }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "price" } }, [_vm._v("Price")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.price,
-                  expression: "price"
+            ],
+            staticClass: "form-control",
+            attrs: {
+              name: "description",
+              id: "description",
+              cols: "30",
+              rows: "5"
+            },
+            domProps: { value: _vm.description },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "number", id: "price", name: "price" },
-              domProps: { value: _vm.price },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.price = $event.target.value
-                }
+                _vm.description = $event.target.value
               }
-            })
-          ]),
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "type" } }, [_vm._v("Type")]),
           _vm._v(" "),
           _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-            [_vm._v("Submit")]
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.type,
+                  expression: "type"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "type", id: "type" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.type = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "laptop" } }, [
+                _vm._v("\n                        Laptop\n                    ")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "computer" } }, [
+                _vm._v(
+                  "\n                        Computer\n                    "
+                )
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "phone" } }, [
+                _vm._v("\n                        Phone\n                    ")
+              ])
+            ]
           )
-        ]
-      )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "stock" } }, [_vm._v("Stock")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.stock,
+                expression: "stock"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "number", id: "stock", name: "stock" },
+            domProps: { value: _vm.stock },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.stock = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "price" } }, [_vm._v("Price")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.price,
+                expression: "price"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "number", id: "price", name: "price" },
+            domProps: { value: _vm.price },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.price = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button" },
+            on: { click: _vm.formSubmit }
+          },
+          [_vm._v("Submit")]
+        )
+      ])
     ])
   ])
 }
@@ -38505,7 +38531,8 @@ var render = function() {
         attrs: {
           content: _vm.products,
           columns: ["id", "name", "type", "stock", "price"],
-          loading: _vm.loading
+          loading: _vm.loading,
+          formEditRouteName: _vm.formEditRouteName
         }
       })
     ],
@@ -53437,8 +53464,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: 'productList',
     component: _views_ProductList__WEBPACK_IMPORTED_MODULE_4__["default"]
   }, {
-    path: '/cms/product/create',
+    path: '/cms/product/form',
     name: 'productForm',
+    component: _views_ProductForm__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }, {
+    path: '/cms/product/form/:id',
+    name: 'productFormEdit',
     component: _views_ProductForm__WEBPACK_IMPORTED_MODULE_5__["default"]
   }]
 });
@@ -53978,7 +54009,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Andrei\Programming\PHP\LaraVue Market\resources\js\cms.js */"./resources/js/cms.js");
+module.exports = __webpack_require__(/*! D:\market\resources\js\cms.js */"./resources/js/cms.js");
 
 
 /***/ })
