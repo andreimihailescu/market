@@ -11,8 +11,8 @@
             <tr v-for="element in content">
                 <td v-for="column in columns">{{ element[column] }}</td>
                 <td v-if="actions">
-                    <router-link :to="{ name: formEditRouteName, params: { id: element.id }}">Edit</router-link>
-                    <a href="#">Delete</a>
+                    <a href="#" @click="$emit('edit', element.id)">Edit</a>
+                    <a href="#" @click="$emit('delete', element.id)">Delete</a>
                 </td>
             </tr>
             </tbody>
@@ -33,7 +33,6 @@
         props: {
             content: Array,
             columns: Array,
-            formEditRouteName: String,
             loading: {
                 type: Boolean,
                 default: false
@@ -42,7 +41,7 @@
                 type: Boolean,
                 default: true
             }
-        },
+        }
     }
 </script>
 

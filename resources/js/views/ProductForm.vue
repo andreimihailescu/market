@@ -82,25 +82,29 @@
                 }).catch(error => {
                     console.log('ERROR:', error);
                 });
+            },
+
+            loaded(){
+                const currentRoute = this.$router.currentRoute;
+
+                if (currentRoute.name === 'productFormEdit') {
+                    axios.get('/api/product/' + currentRoute.params.id).then(response => {
+                        const data = response.data;
+
+                        this.name = data.name;
+                        this.description = data.description;
+                        this.type = data.type;
+                        this.stock = data.stock;
+                        this.price = data.price;
+                    }).catch(error => {
+                        console.log('ERROR:', error);
+                    });
+                }
             }
         },
 
         created() {
-            const currentRoute = this.$router.currentRoute;
-
-            if (currentRoute.name === 'productFormEdit') {
-                axios.get('/api/product/' + currentRoute.params.id).then(response => {
-                    const data = response.data;
-
-                    this.name = data.name;
-                    this.description = data.description;
-                    this.type = data.type;
-                    this.stock = data.stock;
-                    this.price = data.price;
-                }).catch(error => {
-                    console.log('ERROR:', error);
-                });
-            }
+            this.loaded();
         }
     }
 </script>
