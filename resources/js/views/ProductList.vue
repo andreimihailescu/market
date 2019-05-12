@@ -1,6 +1,7 @@
 <template>
     <div>
-        <ButtonComponent :onClick="addProduct">Add product</ButtonComponent>
+        <ButtonComponent class="addButton" :onClick="addProduct">Add product</ButtonComponent>
+
         <TableComponent
                 :content="products"
                 :columns="['id', 'name', 'type', 'stock', 'price']"
@@ -70,5 +71,7 @@
 </script>
 
 <style scoped>
-
+    .addButton{
+        margin-bottom: 15px;
+    }
 </style>

@@ -10,7 +10,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/test', 'TestController@index');
 
-Route::prefix('cms')->group(function () {
+Route::prefix('cms')->middleware('auth')->group(function () {
     Route::get('/', 'CmsController@index');
     Route::get('/{any}', 'CmsController@index')->where('any', '.*');
 

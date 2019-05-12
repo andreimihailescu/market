@@ -12,3 +12,21 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+.cms-header{
+  height: 40px;
+  background-color: #95c5ed;
+
+}
+
+.cms-header > div{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cms-menu{
+  height: 100vh;
+  background-color: #d3d3d35c;
+  padding-top: 15px;
+}
