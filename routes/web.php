@@ -1,19 +1,12 @@
 <?php
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/test', 'TestController@index');
+Route::get('/', 'HomeController@index');
 
 Route::prefix('cms')->middleware('auth')->group(function () {
-    Route::get('/', 'CmsController@index');
-    Route::get('/{any}', 'CmsController@index')->where('any', '.*');
-
-//    Old route
-//    Route::resource('product', 'CMS\ProductController');
+	Route::get('/', 'CmsController@index');
+	Route::get('/{any}', 'CmsController@index')->where('any', '.*');
 });
+
+Route::get('/test', 'TestController@index');
