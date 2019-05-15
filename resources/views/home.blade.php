@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-center mb-4">
+        {{--<div class="row justify-content-center mb-4">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Dashboard</div>
@@ -22,16 +22,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
         @foreach($products as $key => $product)
 
             @if($key === 0)
                 <div class="row mb-3">
-            @elseif($key % 4 === 0)
+            @elseif($key % 3 === 0)
                 </div> <div class="row mb-3">
             @endif
 
-            <div class="col-3">
+            <div class="col-4">
                 @component('components.card')
                     @slot('src') {{ $product->image_source }} @endslot
                     @slot('title') {{ $product->name }} @endslot
