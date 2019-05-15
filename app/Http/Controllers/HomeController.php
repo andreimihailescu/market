@@ -14,7 +14,15 @@ class HomeController extends Controller
 
     public function index()
     {
-    	$products = Product::getAll();
+    	$products = Product::getAll()->toArray();
+
+    	$products = array_merge($products, $products);
+    	$products = array_merge($products, $products);
+    	$products = array_merge($products, $products);
+
+    	foreach($products as &$product){
+    		$product = (object)$product;
+		}
 
         return view('home', compact('products'));
     }

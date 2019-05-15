@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center mb-4">
             <div class="col-md-8">
                 <div class="card">
@@ -23,18 +23,23 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-1">
-            <div class="col-12">
-                @component('components.card')
-                    @slot('title')
-                        This is the title
-                    @endslot
-                    This is the body
-                    @slot('src')
+        @foreach($products as $key => $product)
 
-                        @endslot
+            @if($key === 0)
+                <div class="row mb-3">
+            @elseif($key % 4 === 0)
+                </div> <div class="row mb-3">
+            @endif
+
+            <div class="col-3">
+                @component('components.card')
+                    @slot('src') {{ $product->image_source }} @endslot
+                    @slot('title') {{ $product->name }} @endslot
+                    @slot('description') {{ $product->description }} @endslot
                 @endcomponent
             </div>
-        </div>
+
+        @endforeach
+    </div>
     </div>
 @endsection

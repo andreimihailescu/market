@@ -39,6 +39,7 @@ class ProductController extends Controller
 		$product->type = $request->get('type');
 		$product->stock = $request->get('stock');
 		$product->price = $request->get('price');
+		$product->image_source = '/img/test-image.svg';
 
 		Product::set($product);
 
