@@ -324,7 +324,7 @@
                         form.name = '';
                         form.redirect = '';
                         form.errors = [];
-
+form
                         $(modal).modal('hide');
                     })
                     .catch(error => {

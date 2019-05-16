@@ -34,7 +34,11 @@
             fetchData() {
                 this.loading = true;
 
-                axios.get('/api/product')
+                axios.get('/api/product', {
+                    headers: {
+                        Authorization: 'Bearer ' + window.accessToken,
+                    }
+                })
                     .then(response => {
                         this.loading = false;
                         this.products = response.data;
