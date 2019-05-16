@@ -19,6 +19,8 @@ class HomeController extends Controller
     	$products = array_merge($products, $products);
     	$products = array_merge($products, $products);
     	$products = array_merge($products, $products);
+    	$products = array_merge($products, $products);
+    	$products = array_merge($products, $products);
 
     	foreach($products as &$product){
     		$product = (object)$product;
