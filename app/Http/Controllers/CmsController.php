@@ -14,8 +14,8 @@ class CmsController extends Controller
         $response = $http->post('http://localhost/oauth/token', [
             'form_params' => [
                 'grant_type' => 'client_credentials',
-                'client_id' => '5',
-                'client_secret' => '84UtdOQbeQCy4uZUVC9DCQETb5BnvBoPwBxAfkkF',
+                'client_id' => '1',
+                'client_secret' => 'oGapMd9zMJrHhyalGwuqoN2C8VZuFnCBIjK9L9He',
                 'scope' => '',
             ],
         ]);

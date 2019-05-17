@@ -14,6 +14,9 @@ import App from './views/App';
 import Home from './views/Home';
 import ProductList from './views/ProductList';
 import ProductForm from './views/ProductForm';
+import axios from 'axios';
+
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.accessToken;
 
 const router = new VueRouter({
     mode: 'history',
