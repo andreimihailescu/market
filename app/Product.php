@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use phpDocumentor\Reflection\Types\Integer;
 
 class Product extends Model
@@ -26,7 +27,11 @@ class Product extends Model
 
 	public static function getAll()
 	{
-		return Product::all();
+		$products = Cache::rememberForever('products', function (){
+			return Product::all();
+		});
+
+		return $products;
 	}
 
 	public static function get($id)
@@ -39,5 +44,7 @@ class Product extends Model
 	public static function set(Product $product)
 	{
 		$product->save();
+
+		Cache::forget('products');
 	}
 }
