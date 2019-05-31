@@ -2,24 +2,37 @@
 
 namespace Tests\Unit;
 
+use App\Traits\Authentification;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use GuzzleHttp;
 
 class ProductTest extends TestCase
 {
-    public function testExample()
-    {
-		$response = $this->json('GET', '/api/product');
+	use Authentification;
 
-		dd($response);
+	public function testExample()
+	{
+		$accessToken = $this->getAccessToken();
+
+		$response = $this
+			->withHeader('Authorization', 'Bearer ' . $accessToken)
+			->json('GET', '/api/product');
 
 		$response
-			->assertStatus(201)
-			->assertExactJson([
-				'created' => true,
+			->assertStatus(200)
+			->assertJsonStructure([
+				[
+					'id',
+					'name',
+					'description',
+					'type',
+					'stock',
+					'price'
+				]
 			]);
 
-        $this->assertTrue(true);
-    }
+		$this->assertTrue(true);
+	}
 }
