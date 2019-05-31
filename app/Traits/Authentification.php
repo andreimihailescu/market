@@ -6,7 +6,7 @@ use GuzzleHttp;
 
 trait Authentification
 {
-	function getAccessToken()
+	public function getAccessToken()
 	{
 		$http = new GuzzleHttp\Client;
 

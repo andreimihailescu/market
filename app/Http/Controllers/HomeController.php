@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Providers\ProductServiceInterface;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,19 +13,9 @@ class HomeController extends Controller
 //        $this->middleware('auth');
     }
 
-    public function index()
+    public function index(ProductServiceInterface $product)
     {
-    	$products = Product::getAll()->toArray();
-
-    	$products = array_merge($products, $products);
-    	$products = array_merge($products, $products);
-    	$products = array_merge($products, $products);
-    	$products = array_merge($products, $products);
-    	$products = array_merge($products, $products);
-
-    	foreach($products as &$product){
-    		$product = (object)$product;
-		}
+    	$products = $product->getAll();
 
         return view('home', compact('products'));
     }
