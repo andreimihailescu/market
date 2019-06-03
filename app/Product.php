@@ -47,5 +47,7 @@ class Product extends Model implements ProductServiceInterface
 		$product->save();
 
 		Cache::forget('products');
+
+		return true;
 	}
 }

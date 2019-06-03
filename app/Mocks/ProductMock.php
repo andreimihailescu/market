@@ -8,15 +8,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductMock implements ProductServiceInterface
 {
+	static $collection;
 
-	public static function get($id)
+	public function __construct()
 	{
-		// TODO: Implement get() method.
-	}
-
-	public static function getAll()
-	{
-		$products = new Collection();
+		self::$collection = new Collection();
 
 		$product = new Product();
 		$product->name = 'Test name';
@@ -27,14 +23,22 @@ class ProductMock implements ProductServiceInterface
 		$product->image_source = '/img/test-image.svg';
 
 		for ($i = 0; $i < 25; $i++) {
-			$products->add($product);
+			self::$collection->add($product);
 		}
+	}
 
-		return $products;
+	public static function get($id)
+	{
+		return self::$collection[0];
+	}
+
+	public static function getAll()
+	{
+		return self::$collection;
 	}
 
 	public static function set(Product $product)
 	{
-		// TODO: Implement set() method.
+		return true;
 	}
 }
