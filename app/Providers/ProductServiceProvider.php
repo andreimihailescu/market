@@ -23,7 +23,7 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//		$this->app->bind('App\Providers\ProductServiceInterface', 'App\Product');
-		$this->app->bind('App\Providers\ProductServiceInterface', 'App\Mocks\ProductMock');
+		$this->app->bind('App\Providers\ProductServiceInterface', 'App\Product');
+//		$this->app->bind('App\Providers\ProductServiceInterface', 'App\Mocks\ProductMock');
     }
 }

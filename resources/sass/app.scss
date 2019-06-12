@@ -4,6 +4,10 @@
 @import 'variables';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+// Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
 
 .navbar-laravel {
   background-color: #fff;
@@ -12,4 +16,13 @@
 
 .card-img-top {
   height: 17rem;
+}
+
+.card-title{
+  text-align: center;
+  font-weight: bold;
+}
+
+.card-body{
+  text-align: center;
 }

@@ -35,7 +35,8 @@
                 @component('components.card')
                     @slot('src') {{ $product->image_source }} @endslot
                     @slot('title') {{ $product->name }} @endslot
-                    @slot('description') {{ $product->description }} @endslot
+                    @slot('description') {{ $product->price }} @endslot
+                    <button class="btn btn-primary">Show details <i class="fas fa-address-book"></i></button>
                 @endcomponent
             </div>
 
