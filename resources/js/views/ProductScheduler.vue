@@ -3,8 +3,8 @@
         <h5>Works</h5>
         <CalendarComponent
                 defaultView="dayGridMonth"
-                @dateClick="handleDateClick"
-                @eventClick="handleDateClick"
+                :dateClick="handleDateClick"
+                :eventClick="handleDateClick"
                 :events="[
                     { title: 'event 1', date: '2019-06-10' },
                     { title: 'event 2', date: '2019-06-11' }

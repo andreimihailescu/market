@@ -14276,6 +14276,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14284,6 +14290,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     FullCalendar: _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  props: ['dateClick', 'eventClick'],
   data: function data() {
     return {
       calendarPlugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1___default.a, _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_2___default.a, _fullcalendar_list__WEBPACK_IMPORTED_MODULE_3___default.a]
@@ -51840,7 +51847,10 @@ var render = function() {
   return _c(
     "FullCalendar",
     _vm._b(
-      { attrs: { plugins: _vm.calendarPlugins } },
+      {
+        attrs: { plugins: _vm.calendarPlugins },
+        on: { dateClick: _vm.dateClick, eventClick: _vm.eventClick }
+      },
       "FullCalendar",
       _vm.$attrs,
       false
@@ -53451,12 +53461,13 @@ var render = function() {
       _c("CalendarComponent", {
         attrs: {
           defaultView: "dayGridMonth",
+          dateClick: _vm.handleDateClick,
+          eventClick: _vm.handleDateClick,
           events: [
             { title: "event 1", date: "2019-06-10" },
             { title: "event 2", date: "2019-06-11" }
           ]
-        },
-        on: { dateClick: _vm.handleDateClick, eventClick: _vm.handleDateClick }
+        }
       })
     ],
     1
