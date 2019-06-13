@@ -1,30 +1,49 @@
 <template>
     <div>
-        <h5>Works</h5>
+        <ButtonComponent :onClick="handleDateClick">
+            Add event <i class="fa fa-plus"></i>
+        </ButtonComponent>
+
         <CalendarComponent
                 defaultView="dayGridMonth"
-                :dateClick="handleDateClick"
                 :eventClick="handleDateClick"
-                :events="[
-                    { title: 'event 1', date: '2019-06-10' },
-                    { title: 'event 2', date: '2019-06-11' }
-                  ]"
+                :events="events"
         />
+
+        <ModalComponent :id='modal.testModel' :title="modal.title">
+            This is the content
+        ></ModalComponent>
     </div>
 </template>
 
 <script>
     import CalendarComponent from '../components/CalendarComponent';
+    import ButtonComponent from '../components/ButtonComponent';
+    import ModalComponent from '../components/ModalComponent';
 
     export default {
         name: "ProductScheduler",
 
         components: {
-            CalendarComponent
+            CalendarComponent, ButtonComponent, ModalComponent
         },
 
-        methods:{
-            handleDateClick(){
+        data() {
+            return {
+                events: [
+                    {title: 'event 1213123', date: '2019-06-10', id: 'lol'},
+                    {title: 'event 2', date: '2019-06-11'}
+                ],
+                modal:{
+                    id: 'testModal',
+                    title: 'Mother of title'
+                }
+            }
+        },
+
+        methods: {
+            handleDateClick(arg) {
+                console.log(arg);
                 alert('works');
             }
         }

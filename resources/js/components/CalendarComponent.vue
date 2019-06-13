@@ -1,10 +1,8 @@
 <template>
     <FullCalendar
             :plugins="calendarPlugins"
-            @dateClick="dateClick"
-            @eventClick="eventClick"
             v-bind="$attrs"
-
+            @eventClick="eventClick"
     />
 </template>
 
@@ -20,8 +18,7 @@
         },
 
         props: [
-            'dateClick',
-            'eventClick'
+            'eventClick',
         ],
 
         data() {
