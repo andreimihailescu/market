@@ -14,6 +14,7 @@ import App from './views/App';
 import Home from './views/Home';
 import ProductList from './views/ProductList';
 import ProductForm from './views/ProductForm';
+import ProductScheduler from './views/ProductScheduler';
 import axios from 'axios';
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.accessToken;
@@ -40,6 +41,11 @@ const router = new VueRouter({
             path: '/cms/product/form/:id',
             name: 'productFormEdit',
             component: ProductForm
+        },
+        {
+            path: '/cms/productScheduler',
+            name: 'productScheduler',
+            component: ProductScheduler
         },
     ],
 });

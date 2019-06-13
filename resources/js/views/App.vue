@@ -17,6 +17,9 @@
                         <router-link :to="{ name: 'productList' }">Product</router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link :to="{ name: 'productScheduler' }">Product Scheduler</router-link>
+                    </li>
+                    <li class="nav-item">
                         <a href="/">Main app</a>
                     </li>
                 </ul>
