@@ -17,8 +17,16 @@
                 :saveButtonTitle="'Save Changes'"
                 v-on:save="onModalSave()">
 
-            This is the content
-            >
+            <form>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" v-model="modal.data.title">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="datetime-local" class="form-control" id="date" name="date" v-model="modal.data.date">
+                </div>
+            </form>
         </ModalComponent>
     </div>
 </template>
@@ -42,8 +50,12 @@
                     {title: 'event 2', date: '2019-06-11'}
                 ],
                 modal: {
-                    id: 'testModal',
-                    title: 'Mother of title'
+                    id: 'eventModal',
+                    title: 'Add event',
+                    data: {
+                        title: null,
+                        date: new Date().toISOString(),
+                    }
                 }
             }
         },

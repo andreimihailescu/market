@@ -15551,6 +15551,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -15572,8 +15580,12 @@ __webpack_require__.r(__webpack_exports__);
         date: '2019-06-11'
       }],
       modal: {
-        id: 'testModal',
-        title: 'Mother of title'
+        id: 'eventModal',
+        title: 'Add event',
+        data: {
+          title: null,
+          date: new Date().toISOString()
+        }
       }
     };
   },
@@ -53669,7 +53681,61 @@ var render = function() {
             }
           }
         },
-        [_vm._v("\n\n        This is the content\n        >\n    ")]
+        [
+          _c("form", [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.modal.data.title,
+                    expression: "modal.data.title"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", id: "title", name: "title" },
+                domProps: { value: _vm.modal.data.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.modal.data, "title", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "date" } }, [_vm._v("Date")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.modal.data.date,
+                    expression: "modal.data.date"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "datetime-local", id: "date", name: "date" },
+                domProps: { value: _vm.modal.data.date },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.modal.data, "date", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ])
+        ]
       )
     ],
     1
