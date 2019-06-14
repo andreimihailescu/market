@@ -1,18 +1,25 @@
 <template>
     <div>
-        <ButtonComponent :onClick="handleDateClick">
+        <ButtonComponent :onClick="addEvent">
             Add event <i class="fa fa-plus"></i>
         </ButtonComponent>
 
         <CalendarComponent
                 defaultView="dayGridMonth"
-                :eventClick="handleDateClick"
+                :eventClick="eventClick"
                 :events="events"
         />
 
-        <ModalComponent :id='modal.testModel' :title="modal.title">
+        <ModalComponent
+                :modalId="modal.id"
+                :title="modal.title"
+                :closeButtonTitle="'Close'"
+                :saveButtonTitle="'Save Changes'"
+                v-on:save="onModalSave()">
+
             This is the content
-        ></ModalComponent>
+            >
+        </ModalComponent>
     </div>
 </template>
 
@@ -34,7 +41,7 @@
                     {title: 'event 1213123', date: '2019-06-10', id: 'lol'},
                     {title: 'event 2', date: '2019-06-11'}
                 ],
-                modal:{
+                modal: {
                     id: 'testModal',
                     title: 'Mother of title'
                 }
@@ -42,9 +49,16 @@
         },
 
         methods: {
-            handleDateClick(arg) {
-                console.log(arg);
-                alert('works');
+            addEvent() {
+                $(`#${this.modal.id}`).modal('show');
+            },
+
+            eventClick() {
+                $(`#${this.modal.id}`).modal('show');
+            },
+
+            onModalSave() {
+                alert('OMEGALUL');
             }
         }
     }

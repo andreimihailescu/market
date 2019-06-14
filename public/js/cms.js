@@ -14350,9 +14350,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ModalComponent",
-  props: ['id', 'title']
+  props: {
+    modalId: String,
+    title: String,
+    closeButtonTitle: {
+      type: String,
+      "default": 'Cancel'
+    },
+    saveButtonTitle: {
+      type: String,
+      "default": 'OK'
+    }
+  }
 });
 
 /***/ }),
@@ -15532,6 +15544,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -15559,9 +15578,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    handleDateClick: function handleDateClick(arg) {
-      console.log(arg);
-      alert('works');
+    addEvent: function addEvent() {
+      $("#".concat(this.modal.id)).modal('show');
+    },
+    eventClick: function eventClick() {
+      $("#".concat(this.modal.id)).modal('show');
+    },
+    onModalSave: function onModalSave() {
+      alert('OMEGALUL');
     }
   }
 });
@@ -51981,11 +52005,11 @@ var render = function() {
     {
       staticClass: "modal fade",
       attrs: {
-        id: _vm.id,
         tabindex: "-1",
         role: "dialog",
         "aria-labelledby": "exampleModalLabel",
-        "aria-hidden": "true"
+        "aria-hidden": "true",
+        id: _vm.modalId
       }
     },
     [
@@ -52013,7 +52037,7 @@ var render = function() {
                 staticClass: "btn btn-secondary",
                 attrs: { type: "button", "data-dismiss": "modal" }
               },
-              [_vm._v("Close")]
+              [_vm._v(_vm._s(_vm.closeButtonTitle))]
             ),
             _vm._v(" "),
             _c(
@@ -52021,9 +52045,13 @@ var render = function() {
               {
                 staticClass: "btn btn-primary",
                 attrs: { type: "button" },
-                on: { click: function($event) {} }
+                on: {
+                  click: function($event) {
+                    return _vm.$emit("save")
+                  }
+                }
               },
-              [_vm._v("Save changes")]
+              [_vm._v(_vm._s(_vm.saveButtonTitle))]
             )
           ])
         ])
@@ -53613,7 +53641,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("ButtonComponent", { attrs: { onClick: _vm.handleDateClick } }, [
+      _c("ButtonComponent", { attrs: { onClick: _vm.addEvent } }, [
         _vm._v("\n        Add event "),
         _c("i", { staticClass: "fa fa-plus" })
       ]),
@@ -53621,15 +53649,27 @@ var render = function() {
       _c("CalendarComponent", {
         attrs: {
           defaultView: "dayGridMonth",
-          eventClick: _vm.handleDateClick,
+          eventClick: _vm.eventClick,
           events: _vm.events
         }
       }),
       _vm._v(" "),
       _c(
         "ModalComponent",
-        { attrs: { id: _vm.modal.testModel, title: _vm.modal.title } },
-        [_vm._v("\n        This is the content\n    >")]
+        {
+          attrs: {
+            modalId: _vm.modal.id,
+            title: _vm.modal.title,
+            closeButtonTitle: "Close",
+            saveButtonTitle: "Save Changes"
+          },
+          on: {
+            save: function($event) {
+              return _vm.onModalSave()
+            }
+          }
+        },
+        [_vm._v("\n\n        This is the content\n        >\n    ")]
       )
     ],
     1

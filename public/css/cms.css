@@ -17844,3 +17844,7 @@ readers do not read off random characters that represent icons */
   padding-top: 15px;
 }
 
+.fc-content {
+  cursor: pointer;
+}
+

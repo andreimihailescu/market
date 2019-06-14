@@ -1,5 +1,6 @@
 <template>
-    <div class="modal fade" v-bind:id="id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         :id="modalId">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -12,8 +13,8 @@
                     <slot></slot>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ closeButtonTitle }}</button>
+                    <button type="button" class="btn btn-primary" @click="$emit('save')">{{ saveButtonTitle }}</button>
                 </div>
             </div>
         </div>
@@ -24,10 +25,18 @@
     export default {
         name: "ModalComponent",
 
-        props: [
-            'id',
-            'title'
-        ]
+        props: {
+            modalId: String,
+            title: String,
+            closeButtonTitle: {
+                type: String,
+                default: 'Cancel'
+            },
+            saveButtonTitle: {
+                type: String,
+                default: 'OK'
+            }
+        }
     }
 </script>
 
