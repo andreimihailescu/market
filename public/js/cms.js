@@ -15584,7 +15584,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Add event',
         data: {
           title: null,
-          date: new Date().toISOString()
+          date: new Date().toISOString().substr(0, 16)
         }
       }
     };
