@@ -17745,11 +17745,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       events: [{
         title: 'event 1213123',
-        date: new Date(),
+        date: this.dateToString(new Date()),
         id: '1'
       }, {
         title: 'event 2',
-        date: new Date(),
+        date: this.dateToString(new Date()),
         id: '2'
       }],
       modal: {
@@ -17771,12 +17771,19 @@ __webpack_require__.r(__webpack_exports__);
       var currentSelectedEvent = this.events.find(function (element) {
         return element.id === event.event.id;
       });
-      currentSelectedEvent.date = this.dateToString(new Date(currentSelectedEvent.date));
-      this.modal.data = currentSelectedEvent;
+      this.modal.data = Object.assign({}, currentSelectedEvent);
       $("#".concat(this.modal.id)).modal('show');
     },
     onModalSave: function onModalSave() {
-      alert('OMEGALUL');
+      var _this = this;
+
+      var currentSelectedEvent = this.events.find(function (element) {
+        return element.id === _this.modal.data.id;
+      });
+      currentSelectedEvent.id = this.modal.data.id;
+      currentSelectedEvent.date = this.modal.data.date;
+      currentSelectedEvent.title = this.modal.data.title;
+      $("#".concat(this.modal.id)).modal('hide');
     }
   }
 });

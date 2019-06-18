@@ -49,8 +49,8 @@
         data() {
             return {
                 events: [
-                    {title: 'event 1213123', date: new Date(), id: '1'},
-                    {title: 'event 2', date: new Date(), id: '2'}
+                    {title: 'event 1213123', date: this.dateToString(new Date()), id: '1'},
+                    {title: 'event 2', date: this.dateToString(new Date()), id: '2'}
                 ],
                 modal: {
                     id: 'eventModal',
@@ -71,15 +71,19 @@
 
             eventClick: function (event) {
                 let currentSelectedEvent = this.events.find(element => element.id === event.event.id);
-                currentSelectedEvent.date = this.dateToString(new Date(currentSelectedEvent.date));
-
-                this.modal.data = currentSelectedEvent;
+                this.modal.data = Object.assign({}, currentSelectedEvent);
 
                 $(`#${this.modal.id}`).modal('show');
             },
 
             onModalSave() {
-                alert('OMEGALUL');
+                let currentSelectedEvent = this.events.find(element => element.id === this.modal.data.id);
+
+                currentSelectedEvent.id = this.modal.data.id;
+                currentSelectedEvent.date = this.modal.data.date;
+                currentSelectedEvent.title = this.modal.data.title;
+
+                $(`#${this.modal.id}`).modal('hide');
             }
         }
     }
