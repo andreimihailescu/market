@@ -35,6 +35,7 @@
     import CalendarComponent from '../components/CalendarComponent';
     import ButtonComponent from '../components/ButtonComponent';
     import ModalComponent from '../components/ModalComponent';
+    import {dateHelper} from '../mixins/dateHelper';
 
     export default {
         name: "ProductScheduler",
@@ -43,18 +44,21 @@
             CalendarComponent, ButtonComponent, ModalComponent
         },
 
+        mixins: [dateHelper],
+
         data() {
             return {
                 events: [
-                    {title: 'event 1213123', date: '2019-06-10', id: 'lol'},
-                    {title: 'event 2', date: '2019-06-11'}
+                    {title: 'event 1213123', date: new Date(), id: '1'},
+                    {title: 'event 2', date: new Date(), id: '2'}
                 ],
                 modal: {
                     id: 'eventModal',
                     title: 'Add event',
                     data: {
                         title: null,
-                        date: new Date().toISOString().substr(0, 16),
+                        date: this.dateToString(new Date()),
+                        id: null
                     }
                 }
             }
@@ -65,7 +69,12 @@
                 $(`#${this.modal.id}`).modal('show');
             },
 
-            eventClick() {
+            eventClick: function (event) {
+                let currentSelectedEvent = this.events.find(element => element.id === event.event.id);
+                currentSelectedEvent.date = this.dateToString(new Date(currentSelectedEvent.date));
+
+                this.modal.data = currentSelectedEvent;
+
                 $(`#${this.modal.id}`).modal('show');
             },
 

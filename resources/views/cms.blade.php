@@ -28,6 +28,6 @@
 {{--    TODO Needs to be refactored     --}}
     window.accessToken = '{{ $accessToken }}';
 </script>
-<script src="{{ mix('js/cms.js') }}"></script>
+{{--<script src="{{ mix('js/cms.js') }}"></script>--}}
 </body>
 </html>
