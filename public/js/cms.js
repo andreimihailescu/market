@@ -17729,6 +17729,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -17756,9 +17767,14 @@ __webpack_require__.r(__webpack_exports__);
         id: 'eventModal',
         title: 'Add event',
         data: {
+          id: null,
           title: null,
           date: this.dateToString(new Date()),
-          id: null
+          condition: {},
+          action: {
+            type: null,
+            new_price: null
+          }
         }
       }
     };
@@ -17784,7 +17800,8 @@ __webpack_require__.r(__webpack_exports__);
       currentSelectedEvent.date = this.modal.data.date;
       currentSelectedEvent.title = this.modal.data.title;
       $("#".concat(this.modal.id)).modal('hide');
-    }
+    },
+    saveData: function saveData() {}
   }
 });
 
@@ -55916,6 +55933,84 @@ var render = function() {
                       return
                     }
                     _vm.$set(_vm.modal.data, "date", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("h4", [_vm._v("Action")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "action_type" } }, [_vm._v("Type")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.modal.data.action.type,
+                      expression: "modal.data.action.type"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "action_type" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.modal.data.action,
+                        "type",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [_c("option", [_vm._v("Change price")])]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "action_new_price" } }, [
+                _vm._v("New price")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.modal.data.action.new_price,
+                    expression: "modal.data.action.new_price"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "number",
+                  id: "action_new_price",
+                  name: "action_new_price"
+                },
+                domProps: { value: _vm.modal.data.action.new_price },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.modal.data.action,
+                      "new_price",
+                      $event.target.value
+                    )
                   }
                 }
               })

@@ -26,6 +26,17 @@
                     <label for="date">Date</label>
                     <input type="datetime-local" class="form-control" id="date" name="date" v-model="modal.data.date">
                 </div>
+                <h4>Action</h4>
+                <div class="form-group">
+                    <label for="action_type">Type</label>
+                    <select class="form-control" id="action_type" v-model="modal.data.action.type">
+                        <option>Change price</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="action_new_price">New price</label>
+                    <input type="number" class="form-control" id="action_new_price" name="action_new_price" v-model="modal.data.action.new_price">
+                </div>
             </form>
         </ModalComponent>
     </div>
@@ -56,9 +67,14 @@
                     id: 'eventModal',
                     title: 'Add event',
                     data: {
+                        id: null,
                         title: null,
                         date: this.dateToString(new Date()),
-                        id: null
+                        condition: {},
+                        action: {
+                            type: null,
+                            new_price: null,
+                        }
                     }
                 }
             }
@@ -69,7 +85,7 @@
                 $(`#${this.modal.id}`).modal('show');
             },
 
-            eventClick: function (event) {
+            eventClick(event) {
                 let currentSelectedEvent = this.events.find(element => element.id === event.event.id);
                 this.modal.data = Object.assign({}, currentSelectedEvent);
 
@@ -84,6 +100,10 @@
                 currentSelectedEvent.title = this.modal.data.title;
 
                 $(`#${this.modal.id}`).modal('hide');
+            },
+
+            saveData() {
+
             }
         }
     }
