@@ -105,7 +105,10 @@
             },
 
             saveData(data) {
-                debugger;
+                axios.post('/api/productScheduler', data)
+                    .then(response => {
+                        debugger;
+                    });
             }
         }
     }

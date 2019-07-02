@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('client')->group(function(){
     Route::resource('/product', 'CMS\ProductController');
+    Route::resource('/productScheduler', 'CMS\ProductSchedulerController');
 });

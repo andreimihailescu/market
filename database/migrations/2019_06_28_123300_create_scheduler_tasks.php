@@ -17,11 +17,8 @@ class CreateSchedulerTasks extends Migration
 			$table->bigIncrements('id');
 			$table->string('name');
 			$table->text('description');
-			$table->bigInteger('scheduler_action_id')->unsigned();
 			$table->timestamp('date');
 			$table->timestamps();
-
-			$table->foreign('scheduler_action_id')->references('id')->on('scheduler_tasks');
 		});
 	}
 

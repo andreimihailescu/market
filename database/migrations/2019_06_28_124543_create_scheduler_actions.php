@@ -15,10 +15,13 @@ class CreateSchedulerActions extends Migration
     {
         Schema::create('scheduler_actions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('type', ['price_change']);
-            $table->integer('new_price');
-            $table->timestamps();
-        });
+			$table->bigInteger('scheduler_task_id')->unsigned();
+			$table->enum('type', ['price_change']);
+			$table->integer('new_price');
+			$table->timestamps();
+
+			$table->foreign('scheduler_task_id')->references('id')->on('scheduler_tasks');
+		});
     }
 
     /**

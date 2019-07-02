@@ -17803,7 +17803,9 @@ __webpack_require__.r(__webpack_exports__);
       $("#".concat(this.modal.id)).modal('hide');
     },
     saveData: function saveData(data) {
-      debugger;
+      axios.post('/api/productScheduler', data).then(function (response) {
+        debugger;
+      });
     }
   }
 });
