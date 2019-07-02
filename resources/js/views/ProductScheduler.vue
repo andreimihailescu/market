@@ -99,11 +99,13 @@
                 currentSelectedEvent.date = this.modal.data.date;
                 currentSelectedEvent.title = this.modal.data.title;
 
+                this.saveData(this.modal.data);
+
                 $(`#${this.modal.id}`).modal('hide');
             },
 
-            saveData() {
-
+            saveData(data) {
+                debugger;
             }
         }
     }

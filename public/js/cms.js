@@ -17799,9 +17799,12 @@ __webpack_require__.r(__webpack_exports__);
       currentSelectedEvent.id = this.modal.data.id;
       currentSelectedEvent.date = this.modal.data.date;
       currentSelectedEvent.title = this.modal.data.title;
+      this.saveData(this.modal.data);
       $("#".concat(this.modal.id)).modal('hide');
     },
-    saveData: function saveData() {}
+    saveData: function saveData(data) {
+      debugger;
+    }
   }
 });
 
