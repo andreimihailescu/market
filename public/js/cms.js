@@ -17781,6 +17781,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addEvent: function addEvent() {
+      this.modal.data = {
+        id: null,
+        title: null,
+        date: this.dateToString(new Date()),
+        condition: {},
+        action: {
+          type: null,
+          new_price: null
+        }
+      };
       $("#".concat(this.modal.id)).modal('show');
     },
     eventClick: function eventClick(event) {
@@ -17799,6 +17809,10 @@ __webpack_require__.r(__webpack_exports__);
       currentSelectedEvent.id = this.modal.data.id;
       currentSelectedEvent.date = this.modal.data.date;
       currentSelectedEvent.title = this.modal.data.title;
+      currentSelectedEvent.action = {
+        type: this.modal.data.action.type,
+        new_price: this.modal.data.action.new_price
+      };
       this.saveData(this.modal.data);
       $("#".concat(this.modal.id)).modal('hide');
     },

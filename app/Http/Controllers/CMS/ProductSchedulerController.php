@@ -36,7 +36,12 @@ class ProductSchedulerController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		dd($request);
+		dd($request->post());
+
+		$productSchedulerTask = new ProductSchedulerTask();
+		$productSchedulerTask->name = $request->post('title');
+
+		dd($productSchedulerTask);
 	}
 
 	/**

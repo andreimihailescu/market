@@ -10,10 +10,15 @@ class ProductSchedulerTask extends Model
 	use SoftDeletes;
 
 	protected $fillable = [
-		'new',
+		'name',
 		'description',
 		'date',
 		'type',
 		'new_price'
 	];
+
+	public static function set(ProductSchedulerTask $productSchedulerTask)
+	{
+		return true;
+	}
 }
