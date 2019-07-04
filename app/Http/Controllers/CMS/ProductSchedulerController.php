@@ -2,89 +2,40 @@
 
 namespace App\Http\Controllers\CMS;
 
-use App\ProductSchedulerTask;
+use App\Product;
+use App\SchedulerTask;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductSchedulerController extends Controller
 {
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
 	public function index()
 	{
-		//
+		$tasks = SchedulerTask::with('action')->get();
+
+		return response()->json($tasks);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
-	 */
 	public function store(Request $request)
 	{
-		dd($request->post());
+		$task = new SchedulerTask($request->post());
+		$task->save();
+		$task->action()->create($request->post()['action']);
 
-		$productSchedulerTask = new ProductSchedulerTask();
-		$productSchedulerTask->name = $request->post('title');
-
-		dd($productSchedulerTask);
+		return response('OK');
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param \App\ProductSchedulerTask $productSchedulerTask
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show(ProductSchedulerTask $productSchedulerTask)
+	public function show($id)
 	{
 		//
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param \App\ProductSchedulerTask $productSchedulerTask
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit(ProductSchedulerTask $productSchedulerTask)
+	public function update(Request $request, $id)
 	{
 		//
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param \App\ProductSchedulerTask $productSchedulerTask
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, ProductSchedulerTask $productSchedulerTask)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param \App\ProductSchedulerTask $productSchedulerTask
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy(ProductSchedulerTask $productSchedulerTask)
+	public function destroy($id)
 	{
 		//
 	}

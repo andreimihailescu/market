@@ -17740,6 +17740,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -17754,21 +17755,16 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_dateHelper__WEBPACK_IMPORTED_MODULE_3__["dateHelper"]],
   data: function data() {
     return {
-      events: [{
-        title: 'event 1213123',
-        date: this.dateToString(new Date()),
-        id: '1'
-      }, {
-        title: 'event 2',
-        date: this.dateToString(new Date()),
-        id: '2'
-      }],
+      events: [
+        /*{title: 'event 1213123', date: this.dateToString(new Date()), id: '1'},
+        {title: 'event 2', date: this.dateToString(new Date()), id: '2'}*/
+      ],
       modal: {
         id: 'eventModal',
         title: 'Add event',
         data: {
           id: null,
-          title: null,
+          name: null,
           date: this.dateToString(new Date()),
           condition: {},
           action: {
@@ -17783,7 +17779,7 @@ __webpack_require__.r(__webpack_exports__);
     addEvent: function addEvent() {
       this.modal.data = {
         id: null,
-        title: null,
+        name: null,
         date: this.dateToString(new Date()),
         condition: {},
         action: {
@@ -17801,26 +17797,24 @@ __webpack_require__.r(__webpack_exports__);
       $("#".concat(this.modal.id)).modal('show');
     },
     onModalSave: function onModalSave() {
-      var _this = this;
-
-      var currentSelectedEvent = this.events.find(function (element) {
-        return element.id === _this.modal.data.id;
-      });
-      currentSelectedEvent.id = this.modal.data.id;
-      currentSelectedEvent.date = this.modal.data.date;
-      currentSelectedEvent.title = this.modal.data.title;
-      currentSelectedEvent.action = {
-        type: this.modal.data.action.type,
-        new_price: this.modal.data.action.new_price
-      };
-      this.saveData(this.modal.data);
+      this.saveTask(this.modal.data);
       $("#".concat(this.modal.id)).modal('hide');
     },
-    saveData: function saveData(data) {
+    saveTask: function saveTask(data) {
       axios.post('/api/productScheduler', data).then(function (response) {
-        debugger;
+        console.log('RESPONSE saveTask: ', response);
+      });
+    },
+    getTasks: function getTasks() {
+      var _this = this;
+
+      axios.get('/api/productScheduler').then(function (response) {
+        _this.events = response.data;
       });
     }
+  },
+  created: function created() {
+    this.getTasks();
   }
 });
 
@@ -55906,26 +55900,26 @@ var render = function() {
         [
           _c("form", [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
+              _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.modal.data.title,
-                    expression: "modal.data.title"
+                    value: _vm.modal.data.name,
+                    expression: "modal.data.name"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "title", name: "title" },
-                domProps: { value: _vm.modal.data.title },
+                attrs: { type: "text", id: "name", name: "name" },
+                domProps: { value: _vm.modal.data.name },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.modal.data, "title", $event.target.value)
+                    _vm.$set(_vm.modal.data, "name", $event.target.value)
                   }
                 }
               })
@@ -55995,7 +55989,11 @@ var render = function() {
                     }
                   }
                 },
-                [_c("option", [_vm._v("Change price")])]
+                [
+                  _c("option", { attrs: { value: "price_change" } }, [
+                    _vm._v("Price change")
+                  ])
+                ]
               )
             ]),
             _vm._v(" "),

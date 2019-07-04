@@ -16,9 +16,10 @@ class CreateSchedulerTasks extends Migration
 		Schema::create('scheduler_tasks', function (Blueprint $table) {
 			$table->bigIncrements('id');
 			$table->string('name');
-			$table->text('description');
+			$table->text('description')->nullable();
 			$table->timestamp('date');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 

@@ -19,6 +19,7 @@ class CreateSchedulerActions extends Migration
 			$table->enum('type', ['price_change']);
 			$table->integer('new_price');
 			$table->timestamps();
+			$table->softDeletes();
 
 			$table->foreign('scheduler_task_id')->references('id')->on('scheduler_tasks');
 		});

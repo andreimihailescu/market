@@ -17,10 +17,6 @@ class ProductController extends Controller
 		return response()->json($products);
 	}
 
-	public function create()
-	{
-	}
-
 	public function store(Request $request)
 	{
 		$request->validate([
@@ -49,10 +45,6 @@ class ProductController extends Controller
 	public function show(Product $product)
 	{
 		return response()->json($product);
-	}
-
-	public function edit(Product $product)
-	{
 	}
 
 	public function update(Request $request, Product $product)
