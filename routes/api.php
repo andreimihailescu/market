@@ -14,10 +14,26 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
 
-Route::middleware('client')->group(function(){
-    Route::resource('/product', 'CMS\ProductController');
-    Route::resource('/productScheduler', 'CMS\ProductSchedulerController');
+Route::middleware('client')->group(function () {
+	Route::resource('/product', 'CMS\ProductController', [
+		'only' => [
+			'index',
+			'store',
+			'show',
+			'update',
+			'destroy'
+		]
+	]);
+	Route::resource('/productScheduler', 'CMS\ProductSchedulerController', [
+		'only' => [
+			'index',
+			'store',
+			'show',
+			'update',
+			'destroy'
+		]
+	]);
 });
