@@ -17755,10 +17755,7 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_dateHelper__WEBPACK_IMPORTED_MODULE_3__["dateHelper"]],
   data: function data() {
     return {
-      events: [
-        /*{title: 'event 1213123', date: this.dateToString(new Date()), id: '1'},
-        {title: 'event 2', date: this.dateToString(new Date()), id: '2'}*/
-      ],
+      events: [],
       modal: {
         id: 'eventModal',
         title: 'Add event',
