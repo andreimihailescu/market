@@ -28,11 +28,16 @@ class SchedulerTask extends Model
 	public static function set(array $data, int $id = null): void
 	{
 		if ($id) {
-			$task = SchedulerTask::find($id)->with('action')->get();
+			$task = SchedulerTask::find($id);
 			$task->title = $data['title'];
 			$task->description = $data['description'];
 			$task->date = $data['date'];
-			dd($task->action());
+			$task->save();
+
+			$action = $task->action()->get()[0];
+			$action->type = $data['action']['type'];
+			$action->new_price = $data['action']['new_price'];
+			$action->save();
 			return;
 		}
 
