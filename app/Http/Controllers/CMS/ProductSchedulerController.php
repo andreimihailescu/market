@@ -11,16 +11,12 @@ class ProductSchedulerController extends Controller
 {
 	public function index()
 	{
-		$tasks = SchedulerTask::with('action')->get();
-
-		return response()->json($tasks);
+		return response()->json(SchedulerTask::getAll());
 	}
 
 	public function store(Request $request)
 	{
-		$task = new SchedulerTask($request->post());
-		$task->save();
-		$task->action()->create($request->post()['action']);
+		SchedulerTask::set($request->post());
 
 		return response('OK');
 	}
@@ -32,7 +28,9 @@ class ProductSchedulerController extends Controller
 
 	public function update(Request $request, $id)
 	{
-		//
+		SchedulerTask::set($request->post(), (int)$id);
+
+		return response('OK');
 	}
 
 	public function destroy($id)

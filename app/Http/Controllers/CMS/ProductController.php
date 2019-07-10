@@ -19,15 +19,7 @@ class ProductController extends Controller
 
 	public function store(Request $request)
 	{
-		$request->validate([
-			'name' => 'required|max:255',
-			'stock' => 'required|numeric',
-			'type' => [
-				'required',
-				Rule::in(['laptop', 'computer', 'phone']),
-			],
-			'price' => 'required|numeric',
-		]);
+		$this->formValidate($request);
 
 		$product = new Product();
 		$product->name = $request->get('name');
@@ -49,15 +41,7 @@ class ProductController extends Controller
 
 	public function update(Request $request, Product $product)
 	{
-		$request->validate([
-			'name' => 'required|max:255',
-			'stock' => 'required|numeric',
-			'type' => [
-				'required',
-				Rule::in(['laptop', 'computer', 'phone']),
-			],
-			'price' => 'required|numeric',
-		]);
+		$this->formValidate($request);
 
 		$product->name = $request->get('name');
 		$product->description = $request->get('description');
@@ -75,5 +59,17 @@ class ProductController extends Controller
         $product->delete();
 
 		return response('OK');
+	}
+
+	private function formValidate($request){
+		$request->validate([
+			'name' => 'required|max:255',
+			'stock' => 'required|numeric',
+			'type' => [
+				'required',
+				Rule::in(['laptop', 'computer', 'phone']),
+			],
+			'price' => 'required|numeric',
+		]);
 	}
 }

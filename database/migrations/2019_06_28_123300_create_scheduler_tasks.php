@@ -15,7 +15,7 @@ class CreateSchedulerTasks extends Migration
 	{
 		Schema::create('scheduler_tasks', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->string('name');
+			$table->string('title');
 			$table->text('description')->nullable();
 			$table->timestamp('date');
 			$table->timestamps();

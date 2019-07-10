@@ -17761,7 +17761,7 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Add event',
         data: {
           id: null,
-          name: null,
+          title: null,
           date: this.dateToString(new Date()),
           condition: {},
           action: {
@@ -17776,7 +17776,7 @@ __webpack_require__.r(__webpack_exports__);
     addEvent: function addEvent() {
       this.modal.data = {
         id: null,
-        name: null,
+        title: null,
         date: this.dateToString(new Date()),
         condition: {},
         action: {
@@ -17788,7 +17788,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     eventClick: function eventClick(event) {
       var currentSelectedEvent = this.events.find(function (element) {
-        return element.id === event.event.id;
+        return element.id === Number(event.event.id);
       });
       this.modal.data = Object.assign({}, currentSelectedEvent);
       $("#".concat(this.modal.id)).modal('show');
@@ -17798,15 +17798,24 @@ __webpack_require__.r(__webpack_exports__);
       $("#".concat(this.modal.id)).modal('hide');
     },
     saveTask: function saveTask(data) {
-      axios.post('/api/productScheduler', data).then(function (response) {
-        console.log('RESPONSE saveTask: ', response);
-      });
-    },
-    getTasks: function getTasks() {
       var _this = this;
 
+      var requestCallback = function requestCallback() {
+        _this.getTasks();
+      };
+
+      if (data.id) {
+        axios.put("/api/productScheduler/".concat(data.id), data).then(requestCallback);
+        return;
+      }
+
+      axios.post('/api/productScheduler', data).then(requestCallback);
+    },
+    getTasks: function getTasks() {
+      var _this2 = this;
+
       axios.get('/api/productScheduler').then(function (response) {
-        _this.events = response.data;
+        _this2.events = response.data;
       });
     }
   },
@@ -55897,26 +55906,26 @@ var render = function() {
         [
           _c("form", [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+              _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
               _vm._v(" "),
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.modal.data.name,
-                    expression: "modal.data.name"
+                    value: _vm.modal.data.title,
+                    expression: "modal.data.title"
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "name", name: "name" },
-                domProps: { value: _vm.modal.data.name },
+                attrs: { type: "text", id: "title", name: "title" },
+                domProps: { value: _vm.modal.data.title },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.modal.data, "name", $event.target.value)
+                    _vm.$set(_vm.modal.data, "title", $event.target.value)
                   }
                 }
               })
