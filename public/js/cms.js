@@ -17741,6 +17741,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -17756,6 +17762,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       events: [],
+      products: [],
       modal: {
         id: 'eventModal',
         title: 'Add event',
@@ -17766,7 +17773,8 @@ __webpack_require__.r(__webpack_exports__);
           condition: {},
           action: {
             type: null,
-            new_price: null
+            new_price: null,
+            product_id: null
           }
         }
       }
@@ -17781,9 +17789,11 @@ __webpack_require__.r(__webpack_exports__);
         condition: {},
         action: {
           type: null,
-          new_price: null
+          new_price: null,
+          product_id: null
         }
       };
+      this.getProducts();
       $("#".concat(this.modal.id)).modal('show');
     },
     eventClick: function eventClick(event) {
@@ -17791,6 +17801,8 @@ __webpack_require__.r(__webpack_exports__);
         return element.id === Number(event.event.id);
       });
       this.modal.data = Object.assign({}, currentSelectedEvent);
+      this.modal.data.date = this.dateToString(new Date(this.modal.data.date));
+      this.getProducts();
       $("#".concat(this.modal.id)).modal('show');
     },
     onModalSave: function onModalSave() {
@@ -17816,6 +17828,13 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/productScheduler').then(function (response) {
         _this2.events = response.data;
+      });
+    },
+    getProducts: function getProducts() {
+      var _this3 = this;
+
+      axios.get('/api/product').then(function (response) {
+        _this3.products = response.data;
       });
     }
   },
@@ -56004,6 +56023,53 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "product_id" } }, [
+                _vm._v("Product")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.modal.data.action.product_id,
+                      expression: "modal.data.action.product_id"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "product_id" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.modal.data.action,
+                        "product_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.products, function(product) {
+                  return _c("option", { domProps: { value: product.id } }, [
+                    _vm._v(_vm._s(product.name))
+                  ])
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "action_new_price" } }, [
                 _vm._v("New price")
               ]),
@@ -71667,7 +71733,9 @@ var dateHelper = {
         return null;
       }
 
-      return date.toISOString().substr(0, 16);
+      var timezoneOffset = new Date().getTimezoneOffset() * 60000;
+      var dateWithoutTimezone = new Date(date - timezoneOffset);
+      return dateWithoutTimezone.toISOString().substr(0, 16);
     }
   }
 };

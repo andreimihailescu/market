@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ClearProductsJob;
-use App\Product;
 use App\Providers\ProductServiceInterface;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {

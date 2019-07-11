@@ -11,6 +11,11 @@ class SchedulerAction extends Model
 
 	protected $fillable = [
 		'type',
-		'new_price'
+		'new_price',
+		'product_id'
 	];
+
+	public function product(){
+		return $this->hasOne('App\Product');
+	}
 }

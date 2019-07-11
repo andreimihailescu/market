@@ -12,8 +12,9 @@ export const dateHelper = {
             if (typeof date !== 'object') {
                 return null;
             }
-
-            return date.toISOString().substr(0, 16);
+            const timezoneOffset = new Date().getTimezoneOffset() * 60000;
+            const dateWithoutTimezone = new Date(date - timezoneOffset);
+            return dateWithoutTimezone.toISOString().substr(0, 16);
         }
     }
 };

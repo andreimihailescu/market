@@ -17,11 +17,13 @@ class CreateSchedulerActions extends Migration
             $table->bigIncrements('id');
 			$table->bigInteger('scheduler_task_id')->unsigned();
 			$table->enum('type', ['price_change']);
+			$table->bigInteger('product_id')->unsigned();
 			$table->integer('new_price');
 			$table->timestamps();
 			$table->softDeletes();
 
 			$table->foreign('scheduler_task_id')->references('id')->on('scheduler_tasks');
+			$table->foreign('product_id')->references('id')->on('products');
 		});
     }
 

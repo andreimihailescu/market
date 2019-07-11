@@ -34,6 +34,12 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="product_id">Product</label>
+                    <select class="form-control" id="product_id" v-model="modal.data.action.product_id">
+                        <option v-for="product in products" v-bind:value="product.id">{{ product.name }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="action_new_price">New price</label>
                     <input type="number" class="form-control" id="action_new_price" name="action_new_price"
                            v-model="modal.data.action.new_price">
@@ -61,6 +67,7 @@
         data() {
             return {
                 events: [],
+                products: [],
                 modal: {
                     id: 'eventModal',
                     title: 'Add event',
@@ -72,6 +79,7 @@
                         action: {
                             type: null,
                             new_price: null,
+                            product_id: null
                         }
                     }
                 }
@@ -88,8 +96,11 @@
                     action: {
                         type: null,
                         new_price: null,
+                        product_id: null
                     }
                 };
+
+                this.getProducts();
 
                 $(`#${this.modal.id}`).modal('show');
             },
@@ -97,6 +108,9 @@
             eventClick(event) {
                 let currentSelectedEvent = this.events.find(element => element.id === Number(event.event.id));
                 this.modal.data = Object.assign({}, currentSelectedEvent);
+                this.modal.data.date = this.dateToString(new Date(this.modal.data.date));
+
+                this.getProducts();
 
                 $(`#${this.modal.id}`).modal('show');
             },
@@ -108,9 +122,11 @@
             },
 
             saveTask(data) {
-                const requestCallback = () => {this.getTasks();};
+                const requestCallback = () => {
+                    this.getTasks();
+                };
 
-                if(data.id){
+                if (data.id) {
                     axios.put(`/api/productScheduler/${data.id}`, data)
                         .then(requestCallback);
 
@@ -121,10 +137,17 @@
                     .then(requestCallback);
             },
 
-            getTasks(){
+            getTasks() {
                 axios.get('/api/productScheduler')
                     .then(response => {
                         this.events = response.data;
+                    });
+            },
+
+            getProducts() {
+                axios.get('/api/product')
+                    .then(response => {
+                        this.products = response.data
                     });
             }
         },

@@ -31,7 +31,7 @@ class ClearProductsJob implements ShouldQueue
      */
     public function handle()
     {
-    	$deletedProducts = Product::where('stock', 0)->delete();
+    	$deletedProducts = Product::where('stock', '<', 0)->delete();
 
     	if($deletedProducts){
     		$word = $deletedProducts === 1 ? 'product' : 'products';

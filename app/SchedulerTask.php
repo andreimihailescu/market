@@ -37,6 +37,7 @@ class SchedulerTask extends Model
 			$action = $task->action()->get()[0];
 			$action->type = $data['action']['type'];
 			$action->new_price = $data['action']['new_price'];
+			$action->product_id = $data['action']['product_id'];
 			$action->save();
 			return;
 		}
