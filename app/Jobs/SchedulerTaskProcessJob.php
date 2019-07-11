@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\SchedulerTask;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,7 +31,12 @@ class SchedulerTaskProcessJob implements ShouldQueue
      */
     public function handle()
     {
-        $tasks = SchedulerTask::with('action', 'action.product')->get();
+//        $tasks = SchedulerTask::with('action', 'action.product')->get();
+        $tasks = SchedulerTask::all();
+
+        foreach($tasks as $task){
+        	dd(new DateTime($task->date));
+		}
 
         dd(json_decode(json_encode($tasks), true));
     }

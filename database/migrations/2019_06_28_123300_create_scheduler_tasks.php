@@ -17,6 +17,7 @@ class CreateSchedulerTasks extends Migration
 			$table->bigIncrements('id');
 			$table->string('title');
 			$table->text('description')->nullable();
+			$table->boolean('processed')->default(false);
 			$table->timestamp('date');
 			$table->timestamps();
 			$table->softDeletes();
